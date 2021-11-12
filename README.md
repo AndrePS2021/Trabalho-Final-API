@@ -39,3 +39,16 @@ Utilizar o Swagger para documentação
 
 Techs utilizadas: 
 Projeto deverá ser criado utilizando java com spring boot
+
+<br>
+
+---
+
+### _Colaboradores_
+
+- [ANDRÉ PONTE DA SILVA](https://github.com/AndrePS2021)
+- [MARCELLA ALZUGUIR](https://github.com/MarcellaAlzuguir)
+- [NÚRIA BARBOSA](https://github.com/nuriabarbosa21)
+- [DANIEL CESAR](https://github.com/danielcsar)
+
+
