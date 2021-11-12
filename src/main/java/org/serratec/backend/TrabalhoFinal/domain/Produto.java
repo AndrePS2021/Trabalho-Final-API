@@ -3,6 +3,7 @@ package org.serratec.backend.TrabalhoFinal.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -126,6 +127,8 @@ public class Produto {
 				&& Objects.equals(nomeProduto, other.nomeProduto) && quantidadeEstoque == other.quantidadeEstoque
 				&& Objects.equals(valorUnitario, other.valorUnitario);
 	}
-
+	
+	
+	
 	
 }
