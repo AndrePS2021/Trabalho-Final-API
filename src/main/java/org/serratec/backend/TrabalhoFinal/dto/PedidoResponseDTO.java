@@ -1,10 +1,14 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.serratec.backend.TrabalhoFinal.domain.Cliente;
 
 public class PedidoResponseDTO {
+	
+	private List<PedidoItemRequestDTO> itens = new ArrayList<>();
 	private LocalDate dataPedido;
 	private Cliente cliente;
 	
@@ -33,6 +37,13 @@ public class PedidoResponseDTO {
 		this.cliente = cliente;
 	}
 	
-	
+	public List<PedidoItemRequestDTO> getItens() {
+		return itens;
+	}
 
+	public void setItens(List<PedidoItemRequestDTO> itens) {
+		this.itens = itens;
+	}
 }
+
+

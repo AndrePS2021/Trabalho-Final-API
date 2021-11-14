@@ -3,6 +3,7 @@ package org.serratec.backend.TrabalhoFinal.dto;
 import java.time.LocalDate;
 
 public class ClienteRequestDTO {
+	private Long idCliente;
 	private String nomeCliente;
 	private String emailCliente;
 	private String cpfCliente;
@@ -11,12 +12,22 @@ public class ClienteRequestDTO {
 	public ClienteRequestDTO() {
 	}
 
-	public ClienteRequestDTO(String nomeCliente, String emailCliente, String cpfCliente, LocalDate nascimentoCliente) {
+	public ClienteRequestDTO(Long idCliente, String nomeCliente, String emailCliente, String cpfCliente,
+			LocalDate nascimentoCliente) {
 		super();
+		this.idCliente = idCliente;
 		this.nomeCliente = nomeCliente;
 		this.emailCliente = emailCliente;
 		this.cpfCliente = cpfCliente;
 		this.nascimentoCliente = nascimentoCliente;
+	}
+
+	public Long getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getNomeCliente() {
@@ -50,6 +61,5 @@ public class ClienteRequestDTO {
 	public void setNascimentoCliente(LocalDate nascimentoCliente) {
 		this.nascimentoCliente = nascimentoCliente;
 	}
-	
+
 }
-	

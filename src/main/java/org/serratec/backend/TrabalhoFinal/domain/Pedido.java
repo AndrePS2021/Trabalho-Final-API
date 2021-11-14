@@ -1,10 +1,10 @@
 package org.serratec.backend.TrabalhoFinal.domain;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+
+
 
 @Entity
 public class Pedido {
@@ -28,8 +30,8 @@ public class Pedido {
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido")
-	Set<PedidoItem> pedidoItens;
+	@OneToMany(mappedBy = "pedidoItemPK.pedido", fetch = FetchType.EAGER)
+	private Set<PedidoItem> pedidoItens = new HashSet<>();
 
 	public Long getIdPedido() {
 		return idPedido;
@@ -63,22 +65,5 @@ public class Pedido {
 		this.pedidoItens = pedidoItens;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(cliente, dataPedido, idPedido, pedidoItens);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pedido other = (Pedido) obj;
-		return Objects.equals(cliente, other.cliente) && Objects.equals(dataPedido, other.dataPedido)
-				&& Objects.equals(idPedido, other.idPedido) && Objects.equals(pedidoItens, other.pedidoItens);
-	}
-
+	
 }

@@ -17,7 +17,7 @@ public class Endereco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_endereco")
-	private Long id;
+	private Long idEndereco;
 	
 	@Column(name = "cep", nullable = false)
 	@NotBlank(message = "CEP não pode ser nulo")
@@ -53,12 +53,12 @@ public class Endereco {
 				+ ", cidade=" + cidade + ", uf=" + uf + "]";
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdEndereco() {
+		return idEndereco;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdEndereco(Long idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getCep() {
@@ -119,7 +119,7 @@ public class Endereco {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bairro, cep, cidade, cliente, id, logradouro, numero, uf);
+		return Objects.hash(bairro, cep, cidade, cliente, idEndereco, logradouro, numero, uf);
 	}
 
 	@Override
@@ -133,10 +133,8 @@ public class Endereco {
 		Endereco other = (Endereco) obj;
 		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep)
 				&& Objects.equals(cidade, other.cidade) && Objects.equals(cliente, other.cliente)
-				&& Objects.equals(id, other.id) && Objects.equals(logradouro, other.logradouro)
+				&& Objects.equals(idEndereco, other.idEndereco) && Objects.equals(logradouro, other.logradouro)
 				&& Objects.equals(numero, other.numero) && Objects.equals(uf, other.uf);
 	}
-	
-
-	
+		
 }

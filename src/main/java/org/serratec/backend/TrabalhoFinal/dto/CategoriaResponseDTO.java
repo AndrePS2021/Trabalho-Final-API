@@ -5,19 +5,29 @@ import java.util.List;
 import org.serratec.backend.TrabalhoFinal.domain.Produto;
 
 public class CategoriaResponseDTO {
-
+	private Long idCategoria;
 	private String nomeCategoria;
 	private String descricaoCategoria;
 	private List<Produto> produtos;
 	
 	public CategoriaResponseDTO() {
 	}
-	
-	public CategoriaResponseDTO(String nomeCategoria, String descricaoCategoria, List<Produto> produtos) {
+
+	public CategoriaResponseDTO(Long idCategoria, String nomeCategoria, String descricaoCategoria,
+			List<Produto> produtos) {
 		super();
+		this.idCategoria = idCategoria;
 		this.nomeCategoria = nomeCategoria;
 		this.descricaoCategoria = descricaoCategoria;
 		this.produtos = produtos;
+	}
+
+	public Long getIdCategoria() {
+		return idCategoria;
+	}
+
+	public void setIdCategoria(Long idCategoria) {
+		this.idCategoria = idCategoria;
 	}
 
 	public String getNomeCategoria() {
@@ -43,6 +53,5 @@ public class CategoriaResponseDTO {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
-
 }
+	

@@ -1,13 +1,11 @@
 package org.serratec.backend.TrabalhoFinal.domain;
 
-import java.util.List;
-import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -27,9 +25,6 @@ public class Categoria {
 	@NotBlank(message = "descrição não pode ser nula")
 	@Size(max = 200)
 	private String descricaoCategoria;
-	
-	@OneToMany(mappedBy = "categoria")
-	private List<Produto> produtos;
 
 	public Long getIdCategoria() {
 		return idCategoria;
@@ -54,33 +49,5 @@ public class Categoria {
 	public void setDescricaoCategoria(String descricaoCategoria) {
 		this.descricaoCategoria = descricaoCategoria;
 	}
-
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(descricaoCategoria, idCategoria, nomeCategoria, produtos);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Categoria other = (Categoria) obj;
-		return Objects.equals(descricaoCategoria, other.descricaoCategoria)
-				&& Objects.equals(idCategoria, other.idCategoria) && Objects.equals(nomeCategoria, other.nomeCategoria)
-				&& Objects.equals(produtos, other.produtos);
-	}
-
 	
 }

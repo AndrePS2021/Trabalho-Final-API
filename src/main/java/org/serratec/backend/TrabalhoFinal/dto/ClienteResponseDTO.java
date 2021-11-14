@@ -1,16 +1,26 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
 public class ClienteResponseDTO {
+	private Long idCliente;
 	private String nomeCliente;
 	private String emailCliente;
 	
 	public ClienteResponseDTO() {
 	}
-	
-	public ClienteResponseDTO(String nomeCliente, String emailCliente) {
+
+	public ClienteResponseDTO(Long idCliente, String nomeCliente, String emailCliente) {
 		super();
+		this.idCliente = idCliente;
 		this.nomeCliente = nomeCliente;
 		this.emailCliente = emailCliente;
+	}
+
+	public Long getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getNomeCliente() {
@@ -29,6 +39,4 @@ public class ClienteResponseDTO {
 		this.emailCliente = emailCliente;
 	}
 	
-	
-
 }

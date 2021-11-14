@@ -2,8 +2,6 @@ package org.serratec.backend.TrabalhoFinal.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +19,7 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_produto")
-	private Long id;
+	private Long idProduto;
 		
 	@Column(name = "nome_produto", nullable = false)	
 	@NotBlank(message = "nome do produto não pode ser nulo")
@@ -51,12 +49,14 @@ public class Produto {
 	@JoinColumn(name = "id_categoria", nullable = false)
 	private Categoria categoria;
 
-	public Long getId() {
-		return id;
+	
+
+	public Long getIdProduto() {
+		return idProduto;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdProduto(Long idProduto) {
+		this.idProduto = idProduto;
 	}
 
 	public String getNomeProduto() {
@@ -107,28 +107,5 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(categoria, dataFabricacao, decricaoProduto, id, nomeProduto, quantidadeEstoque,
-				valorUnitario);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		return Objects.equals(categoria, other.categoria) && Objects.equals(dataFabricacao, other.dataFabricacao)
-				&& Objects.equals(decricaoProduto, other.decricaoProduto) && Objects.equals(id, other.id)
-				&& Objects.equals(nomeProduto, other.nomeProduto) && quantidadeEstoque == other.quantidadeEstoque
-				&& Objects.equals(valorUnitario, other.valorUnitario);
-	}
-	
-	
-	
-	
+		
 }

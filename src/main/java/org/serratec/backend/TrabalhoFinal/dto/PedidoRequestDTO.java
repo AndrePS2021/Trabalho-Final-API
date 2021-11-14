@@ -1,38 +1,41 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
-import java.time.LocalDate;
-
-import org.serratec.backend.TrabalhoFinal.domain.Cliente;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PedidoRequestDTO {
-	private LocalDate dataPedido;
-	private Cliente cliente;
+	private Long idPedido;
+	private Long idCliente;
+	private List<PedidoItemRequestDTO> itens = new ArrayList<>();
 	
 	public PedidoRequestDTO() {
 	}
-	
-	public PedidoRequestDTO(LocalDate dataPedido, Cliente cliente) {
-		super();
-		this.dataPedido = dataPedido;
-		this.cliente = cliente;
-	}
 
-	public LocalDate getDataPedido() {
-		return dataPedido;
-	}
-
-	public void setDataPedido(LocalDate dataPedido) {
-		this.dataPedido = dataPedido;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public Long getIdPedido() {
+		return idPedido;
 	}
 
 
+	public void setIdPedido(Long idPedido) {
+		this.idPedido = idPedido;
+	}
 
+
+	public Long getIdCliente() {
+		return idCliente;
+	}
+
+
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
+	}
+
+
+	public List<PedidoItemRequestDTO> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<PedidoItemRequestDTO> itens) {
+		this.itens = itens;
+	}
 }

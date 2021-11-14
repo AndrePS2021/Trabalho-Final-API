@@ -1,6 +1,7 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
 public class EnderecoRequestDTO {
+	private Long idEndereco;
 	private String cep;
 	private String logradouro;
 	private String numero;
@@ -10,15 +11,25 @@ public class EnderecoRequestDTO {
 	
 	public EnderecoRequestDTO() {
 	}
-	
-	public EnderecoRequestDTO(String cep, String logradouro, String numero, String bairro, String cidade, String uf) {
+
+	public EnderecoRequestDTO(Long idEndereco, String cep, String logradouro, String numero, String bairro,
+			String cidade, String uf) {
 		super();
+		this.idEndereco = idEndereco;
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.bairro = bairro;
 		this.cidade = cidade;
 		this.uf = uf;
+	}
+
+	public Long getIdEndereco() {
+		return idEndereco;
+	}
+
+	public void setIdEndereco(Long idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getCep() {
@@ -68,7 +79,5 @@ public class EnderecoRequestDTO {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	
-	
-
 }
+	

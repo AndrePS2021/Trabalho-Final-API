@@ -3,16 +3,26 @@ package org.serratec.backend.TrabalhoFinal.dto;
 import java.math.BigDecimal;
 
 public class PedidoItemResponseDTO {
+	private long id;
 	private int qteProduto;
 	private BigDecimal valorTotal;
 	
 	public PedidoItemResponseDTO() {
 	}
 
-	public PedidoItemResponseDTO(int qteProduto, BigDecimal valorTotal) {
+	public PedidoItemResponseDTO(long id, int qteProduto, BigDecimal valorTotal) {
 		super();
+		this.id = id;
 		this.qteProduto = qteProduto;
 		this.valorTotal = valorTotal;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public int getQteProduto() {
@@ -30,5 +40,6 @@ public class PedidoItemResponseDTO {
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
 	}
-
 }
+
+	

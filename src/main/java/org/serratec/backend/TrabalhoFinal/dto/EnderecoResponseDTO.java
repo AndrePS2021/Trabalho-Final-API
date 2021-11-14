@@ -1,15 +1,24 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
 public class EnderecoResponseDTO {
-
+	private Long idEndereco;
 	private String cep;
 
 	public EnderecoResponseDTO() {
 	}
-	
-	public EnderecoResponseDTO(String cep) {
+
+	public EnderecoResponseDTO(Long idEndereco, String cep) {
 		super();
+		this.idEndereco = idEndereco;
 		this.cep = cep;
+	}
+
+	public Long getIdEndereco() {
+		return idEndereco;
+	}
+
+	public void setIdEndereco(Long idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getCep() {
@@ -20,5 +29,5 @@ public class EnderecoResponseDTO {
 		this.cep = cep;
 	}
 	
-	
+
 }
