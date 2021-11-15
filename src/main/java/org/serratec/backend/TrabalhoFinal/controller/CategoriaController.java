@@ -1,12 +1,14 @@
 package org.serratec.backend.TrabalhoFinal.controller;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.serratec.backend.TrabalhoFinal.domain.Categoria;
-import org.serratec.backend.TrabalhoFinal.repository.CategoriaRepository;
+import org.serratec.backend.TrabalhoFinal.dto.CategoriaRequestDTO;
+import org.serratec.backend.TrabalhoFinal.dto.CategoriaResponseDTO;
+import org.serratec.backend.TrabalhoFinal.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,30 +21,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
 
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CategoriaService categoriaService;
 
 	@GetMapping
 	@ApiOperation(value = "Consultar todas as categorias", notes = "Consultar categorias")
-	public List<Categoria> listar() {
-		return categoriaRepository.findAll();
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna todas as Categorias"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção")})
+	public ResponseEntity<List<CategoriaResponseDTO>> buscarTodos() {
+		return ResponseEntity.ok(categoriaService.findAll());
 
 	}
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Consultar categoria por id", notes = "Consultar categoria")
-	public ResponseEntity<Categoria> buscar(@PathVariable Long id) {
-		Optional<Categoria> categoria = categoriaRepository.findById(id);
-		if (categoria.isPresent()) {
-			return ResponseEntity.ok(categoria.get());
-
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Categoria retornada"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu alguma excessão")
+	})
+	public ResponseEntity<CategoriaResponseDTO> buscar(@Valid @PathVariable Long id) {
+		CategoriaResponseDTO categoriaDTO = categoriaService.pesquisarUmDTO(id);
+		if (categoriaDTO != null) {
+			return ResponseEntity.ok(categoriaDTO);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -50,33 +69,52 @@ public class CategoriaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Inserir categoria", notes = "Inserir categoria")
-	public Categoria inserir(@Valid @RequestBody Categoria categoria) {
-		return categoriaRepository.save(categoria);
-
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Categoria adicionada"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção")})	
+	public ResponseEntity<CategoriaResponseDTO> inserir(@Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+		Categoria categoria = categoriaService.insert(categoriaDTO);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getIdCategoria()).toUri();
+		
+		return ResponseEntity.created(uri).body(new CategoriaResponseDTO(categoria));
+		
 	}
 
 	@PutMapping("/{id}")
-	@ApiOperation(value = "Atualizar categoria pelo id", notes = "Atualizar categoria por id")
-	public ResponseEntity<Categoria> atualizar(@PathVariable Long id, @Valid @RequestBody Categoria categoria) {
-		if (categoriaRepository.existsById(id)) {
-			return ResponseEntity.notFound().build();
-		}
-
-		categoria.setIdCategoria(id);
-		categoria = categoriaRepository.save(categoria);
-		return ResponseEntity.ok(categoria);
-
+	@ApiOperation(value = "Atualiza dados de uma Categoria", notes = "Atualizar Categoria")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Categoria atualizada"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção")})
+	public ResponseEntity<CategoriaResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+		if (categoriaService.idExiste(id)) {
+			return ResponseEntity.ok(categoriaService.atualizarCategoria(categoriaDTO, id));		
+		}		
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Deletar categoria por id", notes = "Deletar categoria")
-	public ResponseEntity<Void> remover(@Valid @PathVariable Long id) {
-		if (!categoriaRepository.existsById(id)) {
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Categoria removida"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<String> remover(@Valid @PathVariable Long id) {
+		if (!categoriaService.idExiste(id)) {
 			return ResponseEntity.notFound().build();
-		}
-
-		categoriaRepository.deleteById(id);
-		return ResponseEntity.noContent().build();
+		}		
+		categoriaService.remover(id);
+		return ResponseEntity.ok("Categoria removido");		
 	}
-
 }

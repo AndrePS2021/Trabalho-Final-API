@@ -1,12 +1,12 @@
 package org.serratec.backend.TrabalhoFinal.controller;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.serratec.backend.TrabalhoFinal.domain.Pedido;
 import org.serratec.backend.TrabalhoFinal.dto.PedidoRequestDTO;
+import org.serratec.backend.TrabalhoFinal.dto.PedidoResponseDTO;
 import org.serratec.backend.TrabalhoFinal.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,67 +20,97 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/pedido")
+@RequestMapping("/pedidos")
 public class PedidoController {
 
 	@Autowired
-	private PedidoService pedidoService; 
+	private PedidoService pedidoService;
 
 	@GetMapping
 	@ApiOperation(value = "Lista todos os pedidos", notes = "Listagem de pedidos")
-	public List<Pedido> listar() {
-		return pedidoService.pesquisarTodos();
-
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Pedidos listados com sucesso"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso Indisponivel"),
+			@ApiResponse(code = 422, message = "Recurso Indisponivel"),
+			@ApiResponse(code = 500, message = "Erros interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<List<PedidoResponseDTO>> listar() {
+		return ResponseEntity.ok(pedidoService.findAll());
 	}
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Consultar pedido por id", notes = "Consultar pedido")
-	public ResponseEntity<Pedido> pequisar(@Valid @PathVariable Long id) {
-		Optional<Pedido> pedido = pedidoService.pesquisarUm(id);
-		if (pedido.isPresent()) {
-			return ResponseEntity.ok(pedido.get());
-
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Busca realizada com sucesso"),
+			@ApiResponse(code = 201, message = "Pedido localizado com sucesso"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso Indisponivel"),
+			@ApiResponse(code = 500, message = "Erros interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<PedidoResponseDTO> pequisar(@Valid @PathVariable Long id) {
+		if (pedidoService.idExiste(id)) {
+			return ResponseEntity.ok(pedidoService.pesquisarUm(id));
 		}
-
 		return ResponseEntity.notFound().build();
-
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Inserir um pedido", notes = "Inserir pedido")
-	public Pedido inserir(@Valid @RequestBody PedidoRequestDTO pedidoDTO) {
-		return pedidoService.inserir(pedidoDTO);
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Pedido inserido com sucesso"),
+			@ApiResponse(code = 201, message = "Pedido criado com sucesso"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso Indisponivel"),
+			@ApiResponse(code = 422, message = "Recurso Indisponivel"),
+			@ApiResponse(code = 500, message = "Erros interno do servidor"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<PedidoResponseDTO> inserir(@RequestBody PedidoRequestDTO pedidoRequestDTO) {
+		PedidoResponseDTO pedido = pedidoService.insert(pedidoRequestDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pedido.getIdPedido())
+				.toUri();
+		return ResponseEntity.created(uri).body(pedido);
 	}
 
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Atualizar pedido pelo id", notes = "Atualizar pedido pelo id")
-	public ResponseEntity<Pedido> atualizar(@PathVariable Long idPedido, @Valid @RequestBody Pedido pedido) {
-		if (!pedidoService.idExiste(idPedido)) {
-			return ResponseEntity.notFound().build();
-
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Pedido atualizado"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 505, message = "Ocorreu alguma excessão")})
+	public ResponseEntity<PedidoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PedidoRequestDTO pedidoRequestDTO) {
+		if (pedidoService.idExiste(id)) {
+			return ResponseEntity.ok(new PedidoResponseDTO(pedidoService.update(pedidoRequestDTO, id)));
 		}
-
-		pedido.setIdPedido(idPedido);
-		//pedido = pedidoService.inserir(pedido);
-		return ResponseEntity.ok(pedido);
-
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Deletar pedido por id", notes = "Deletar pedido")
-	public ResponseEntity<Void> remover(@PathVariable Long id) {
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Produto removido"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 505, message = "Ocorreu alguma excessão") })
+	public ResponseEntity<String> remover(@Valid @PathVariable Long id) {
 		if (!pedidoService.idExiste(id)) {
 			return ResponseEntity.notFound().build();
-
 		}
-
 		pedidoService.remover(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok("Pedido removido");
 	}
-
 }

@@ -1,78 +1,64 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
-import org.serratec.backend.TrabalhoFinal.domain.Categoria;
+import org.serratec.backend.TrabalhoFinal.domain.Produto;
 
 public class ProdutoRequestDTO {
 	private String nomeProduto;
 	private String decricaoProduto;
 	private int quantidadeEstoque;
-	private LocalDate dataFabricacao;
-	private BigDecimal valorUnitario;
-	private Categoria categoria;
+	private Date dataFabricacao;
+	private Double valorUnitario;
+	private Long idCategoria;
 	
 	public ProdutoRequestDTO() {
 	}
 	
-	public ProdutoRequestDTO(String nomeProduto, String decricaoProduto, int quantidadeEstoque,
-			LocalDate dataFabricacao, BigDecimal valorUnitario, Categoria categoria) {
+	public ProdutoRequestDTO(Produto produto) {
 		super();
-		this.nomeProduto = nomeProduto;
-		this.decricaoProduto = decricaoProduto;
-		this.quantidadeEstoque = quantidadeEstoque;
-		this.dataFabricacao = dataFabricacao;
-		this.valorUnitario = valorUnitario;
-		this.categoria = categoria;
+		this.nomeProduto = produto.getNomeProduto();
+		this.decricaoProduto = produto.getDecricaoProduto();
+		this.quantidadeEstoque = produto.getQuantidadeEstoque();
+		this.dataFabricacao = produto.getDataFabricacao();
+		this.valorUnitario = produto.getValorUnitario();
+		this.idCategoria = produto.getCategoria().getIdCategoria();
 	}
 
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
-
 	public void setNomeProduto(String nomeProduto) {
 		this.nomeProduto = nomeProduto;
 	}
-
 	public String getDecricaoProduto() {
 		return decricaoProduto;
 	}
-
 	public void setDecricaoProduto(String decricaoProduto) {
 		this.decricaoProduto = decricaoProduto;
 	}
-
 	public int getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
-
 	public void setQuantidadeEstoque(int quantidadeEstoque) {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
-
-	public LocalDate getDataFabricacao() {
+	public Date getDataFabricacao() {
 		return dataFabricacao;
 	}
-
-	public void setDataFabricacao(LocalDate dataFabricacao) {
+	public void setDataFabricacao(Date dataFabricacao) {
 		this.dataFabricacao = dataFabricacao;
 	}
-
-	public BigDecimal getValorUnitario() {
+	public Double getValorUnitario() {
 		return valorUnitario;
 	}
-
-	public void setValorUnitario(BigDecimal valorUnitario) {
+	public void setValorUnitario(Double valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-
-	public Categoria getCategoria() {
-		return categoria;
+	public Long getIdCategoria() {
+		return idCategoria;
 	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-	
+	public void setIdCategoria(Long idCategoria) {
+		this.idCategoria = idCategoria;
+	}	
 }

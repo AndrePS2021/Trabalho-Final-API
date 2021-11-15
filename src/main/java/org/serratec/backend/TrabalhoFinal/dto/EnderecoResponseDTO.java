@@ -1,33 +1,55 @@
 package org.serratec.backend.TrabalhoFinal.dto;
 
-public class EnderecoResponseDTO {
-	private Long idEndereco;
-	private String cep;
+import org.serratec.backend.TrabalhoFinal.domain.Endereco;
 
+public class EnderecoResponseDTO {
+
+	private String logradouro;
+	private String bairro;   
+	private String cep;
+	private String localidade;
+	private String uf;
+	
 	public EnderecoResponseDTO() {
 	}
 
-	public EnderecoResponseDTO(Long idEndereco, String cep) {
+	public EnderecoResponseDTO(Endereco endereco) {
 		super();
-		this.idEndereco = idEndereco;
-		this.cep = cep;
+		this.logradouro = endereco.getLogradouro();
+		this.bairro = endereco.getBairro();
+		this.cep = endereco.getCep();
+		this.localidade = endereco.getLocalidade();
+		this.uf = endereco.getUf();
 	}
-
-	public Long getIdEndereco() {
-		return idEndereco;
+	
+	public String getLogradouro() {
+		return logradouro;
 	}
-
-	public void setIdEndereco(Long idEndereco) {
-		this.idEndereco = idEndereco;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
-
+	public String getBairro() {
+		return bairro;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
 	public String getCep() {
 		return cep;
 	}
-
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
-
+	public String getCidade() {
+		return localidade;
+	}
+	public void setCidade(String cidade) {
+		this.localidade = cidade;
+	}
+	public String getUf() {
+		return uf;
+	}
+	public void setUf(String uf) {
+		this.uf = uf;
+	}	
 }

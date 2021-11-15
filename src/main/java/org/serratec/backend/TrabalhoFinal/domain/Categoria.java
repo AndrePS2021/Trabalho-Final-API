@@ -1,30 +1,48 @@
 package org.serratec.backend.TrabalhoFinal.domain;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import org.serratec.backend.TrabalhoFinal.dto.CategoriaResponseDTO;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@Table(name = "categoria")
 public class Categoria {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_categoria")
+	@ApiModelProperty(value = "Identificador da categoria", required = true)
 	private Long idCategoria;
-	
-	@Column(name = "nome_categoria", nullable = false, length = 50)
-	@NotBlank(message = "nome não pode ser nulo")
-	@Size (max = 50)
+
+	@NotBlank
+	@Column(name = "nome_categoria")
+	@ApiModelProperty(value = "Categoria do produto")
 	private String nomeCategoria;
 
-	@Column(name = "descricao_categoria", nullable = false, length = 200)
-	@NotBlank(message = "descrição não pode ser nula")
-	@Size(max = 200)
+	@NotBlank
+	@Column(name = "descricao_categoria")
+	@ApiModelProperty(value = "Descrição da categoria")
 	private String descricaoCategoria;
+
+	
+	public Categoria() {
+		super();
+	}
+
+	public Categoria(CategoriaResponseDTO categoriaResponseDTO) {
+		super();
+		this.idCategoria = categoriaResponseDTO.getIdCategoria();
+		this.nomeCategoria = categoriaResponseDTO.getNomeCategoria();
+		this.descricaoCategoria = categoriaResponseDTO.getDescricaoCategoria();
+	}
 
 	public Long getIdCategoria() {
 		return idCategoria;
@@ -45,9 +63,7 @@ public class Categoria {
 	public String getDescricaoCategoria() {
 		return descricaoCategoria;
 	}
-
 	public void setDescricaoCategoria(String descricaoCategoria) {
 		this.descricaoCategoria = descricaoCategoria;
 	}
-	
 }

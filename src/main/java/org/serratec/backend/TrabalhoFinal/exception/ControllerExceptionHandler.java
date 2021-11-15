@@ -11,7 +11,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -38,10 +37,5 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
-	}
-	
-	@ExceptionHandler(EmailException.class)
-	protected ResponseEntity<Object> emailExceptionHandler(EmailException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
 }

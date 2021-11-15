@@ -1,17 +1,14 @@
 package org.serratec.backend.TrabalhoFinal.domain;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "endereco")
 public class Endereco {
 	
 	@Id
@@ -19,122 +16,60 @@ public class Endereco {
 	@Column(name = "id_endereco")
 	private Long idEndereco;
 	
-	@Column(name = "cep", nullable = false)
-	@NotBlank(message = "CEP não pode ser nulo")
-	private String cep;
-	
-	@Column(name = "logradouro", nullable = false)
-	@NotBlank(message = "logradouro não pode ser nulo")
+	@Column(name = "logradouro")
 	private String logradouro;
 	
-	@Column(name = "numero", nullable = false)
-	@NotBlank(message = "numero não pode ser nulo")
-	private String numero;
-	
-	@Column(name = "bairro", nullable = false)
-	@NotBlank(message = "bairro não pode ser nulo")
+	@Column(name = "bairro")
 	private String bairro;
-	
-	@Column(name = "cidade", nullable = false)
-	@NotBlank(message = "cidade não pode ser nulo")
-	private String cidade;
-	
-	@Column(name = "uf", nullable = false)
-	@NotBlank(message = "estado não pode ser nulo")
-	private String uf;
-	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente;
 
-	@Override
-	public String toString() {
-		return "Endereco [cep=" + cep + ", logradouro=" + logradouro + ", numero=" + numero + ", bairro=" + bairro
-				+ ", cidade=" + cidade + ", uf=" + uf + "]";
-	}
+	@Column(name = "cep")
+	private String cep;
+	
+	@Column(name = "localidade")
+	private String localidade;
+
+	@Column(name = "uf")
+	private String uf;
 
 	public Long getIdEndereco() {
 		return idEndereco;
 	}
-
 	public void setIdEndereco(Long idEndereco) {
 		this.idEndereco = idEndereco;
 	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
 	public String getLogradouro() {
 		return logradouro;
 	}
-
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
 	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
 	public String getBairro() {
 		return bairro;
 	}
-
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}	
+	public String getCep() {
+		return cep;
 	}
-
-	public String getCidade() {
-		return cidade;
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public String getLocalidade() {
+		return localidade;
 	}
-
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
+	}
 	public String getUf() {
 		return uf;
 	}
-
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
 	@Override
-	public int hashCode() {
-		return Objects.hash(bairro, cep, cidade, cliente, idEndereco, logradouro, numero, uf);
+	public String toString() {
+		return "Endereco \n[Logradouro = " + logradouro + "\n Bairro = " + bairro + 
+			   "\n CEP = " + cep + "\n Cidade = " + localidade + "\n UF = " + uf + "]";
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep)
-				&& Objects.equals(cidade, other.cidade) && Objects.equals(cliente, other.cliente)
-				&& Objects.equals(idEndereco, other.idEndereco) && Objects.equals(logradouro, other.logradouro)
-				&& Objects.equals(numero, other.numero) && Objects.equals(uf, other.uf);
-	}
-		
 }
